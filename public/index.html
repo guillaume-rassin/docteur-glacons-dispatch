@@ -8,27 +8,27 @@
 
 body{
 font-family: Arial;
-background:#f5f7fb;
+background:#f4f6fb;
 margin:0;
 padding:40px;
 }
 
 .container{
-max-width:900px;
+max-width:1000px;
 margin:auto;
 background:white;
-padding:40px;
+padding:35px;
 border-radius:12px;
-box-shadow:0 5px 20px rgba(0,0,0,0.1);
+box-shadow:0 6px 30px rgba(0,0,0,0.1);
 }
 
 h1{
 text-align:center;
-margin-bottom:30px;
+margin-bottom:35px;
 }
 
 .section{
-border:2px solid #3b5b8a;
+border:2px solid #445e88;
 padding:20px;
 border-radius:10px;
 margin-bottom:25px;
@@ -36,8 +36,7 @@ margin-bottom:25px;
 
 .section h2{
 margin-top:0;
-color:#3b5b8a;
-font-size:18px;
+color:#445e88;
 }
 
 .grid{
@@ -52,44 +51,53 @@ grid-template-columns:1fr 1fr 1fr;
 gap:15px;
 }
 
-input,select{
+.grid4{
+display:grid;
+grid-template-columns:1fr 1fr 1fr 1fr;
+gap:15px;
+}
+
+input,select,textarea{
+width:100%;
 padding:10px;
 border-radius:6px;
 border:1px solid #ccc;
-width:100%;
 box-sizing:border-box;
 }
 
 textarea{
-width:100%;
-padding:10px;
-border-radius:6px;
-border:1px solid #ccc;
+height:70px;
 }
 
 .calc{
-background:#3b5b8a;
+background:#445e88;
 color:white;
+font-size:20px;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:20px;
+border-radius:6px;
 font-weight:bold;
-border-radius:8px;
 }
 
 button{
-background:#3b5b8a;
+background:#445e88;
 color:white;
-padding:12px 20px;
 border:none;
+padding:14px 22px;
 border-radius:6px;
 font-size:16px;
 cursor:pointer;
 }
 
 button:hover{
-background:#2f4870;
+background:#31486e;
+}
+
+.footer{
+display:flex;
+justify-content:flex-end;
+margin-top:20px;
 }
 
 </style>
@@ -99,27 +107,28 @@ background:#2f4870;
 
 <div class="container">
 
-<h1>Dispatch Docteur Glaçons</h1>
+<h1>Création course Onfleet</h1>
 
 <form id="form">
 
 <div class="section">
+
 <h2>Client</h2>
 
 <div class="grid3">
 
 <div>
-<label>Prénom</label>
+<label>Prénom *</label>
 <input id="firstName">
 </div>
 
 <div>
-<label>Nom</label>
+<label>Nom *</label>
 <input id="lastName">
 </div>
 
 <div>
-<label>Téléphone</label>
+<label>Téléphone *</label>
 <input id="phone">
 </div>
 
@@ -134,7 +143,7 @@ background:#2f4870;
 </div>
 
 <div>
-<label>Typologie</label>
+<label>Typologie client *</label>
 <select id="clientType">
 <option></option>
 <option>Particulier</option>
@@ -152,16 +161,19 @@ background:#2f4870;
 </div>
 
 </div>
+
 </div>
 
 
+
 <div class="section">
+
 <h2>Livraison</h2>
 
 <div class="grid">
 
 <div>
-<label>Adresse</label>
+<label>Adresse *</label>
 <input id="address">
 </div>
 
@@ -171,17 +183,17 @@ background:#2f4870;
 </div>
 
 <div>
-<label>Date</label>
+<label>Date *</label>
 <input type="date" id="deliveryDate">
 </div>
 
 <div>
-<label>Heure min</label>
+<label>Heure min *</label>
 <input type="time" id="timeMin">
 </div>
 
 <div>
-<label>Heure max</label>
+<label>Heure max *</label>
 <input type="time" id="timeMax">
 </div>
 
@@ -195,10 +207,12 @@ background:#2f4870;
 </div>
 
 
+
 <div class="section">
+
 <h2>Produits</h2>
 
-<div class="grid3">
+<div class="grid4">
 
 <div>
 <label>Glaçons (20kg)</label>
@@ -213,6 +227,10 @@ background:#2f4870;
 <div>
 <label>Carboglace 2kg</label>
 <input type="number" id="dryIce2" value="0">
+</div>
+
+<div class="calc">
+<span id="totalKg">0</span> kg
 </div>
 
 <div>
@@ -243,8 +261,27 @@ background:#2f4870;
 </select>
 </div>
 
-<div class="calc">
-<span id="totalKg">0</span> kg
+</div>
+
+</div>
+
+
+
+<div class="section">
+
+<h2>Paiement</h2>
+
+<div class="grid3">
+
+<div>
+<label>Mode de règlement *</label>
+<select id="paymentMethod">
+<option></option>
+<option>CB</option>
+<option>Espèces</option>
+<option>Facture</option>
+<option>Chèque</option>
+</select>
 </div>
 
 <div class="calc">
@@ -252,10 +289,12 @@ background:#2f4870;
 </div>
 
 </div>
+
 </div>
 
 
-<div style="text-align:right">
+
+<div class="footer">
 <button type="submit">Créer la course</button>
 </div>
 
@@ -264,31 +303,35 @@ background:#2f4870;
 </div>
 
 
+
 <script>
 
-function getNumber(id){
+function val(id){
+return document.getElementById(id).value
+}
+
+function num(id){
 return Number(document.getElementById(id).value || 0)
 }
 
 function compute(){
 
 let kg =
-getNumber("ice20")*20 +
-getNumber("crushed20")*20 +
-getNumber("dryIce2")*2 +
-getNumber("dryIce5")*5 +
-getNumber("dryIce10")*10
+num("ice20")*20 +
+num("crushed20")*20 +
+num("dryIce2")*2 +
+num("dryIce5")*5 +
+num("dryIce10")*10
 
 let price =
-getNumber("ice20")*20 +
-getNumber("crushed20")*20 +
-getNumber("dryIce2")*25 +
-getNumber("dryIce5")*35 +
-getNumber("dryIce10")*55 +
-getNumber("coolerBox")*10
+num("ice20")*20 +
+num("crushed20")*20 +
+num("dryIce2")*25 +
+num("dryIce5")*35 +
+num("dryIce10")*55 +
+num("coolerBox")*10
 
-let delivery = document.getElementById("deliveryFee").value
-delivery = Number(delivery.replace("€","").trim())
+let delivery = Number(val("deliveryFee").replace("€",""))
 
 price += delivery
 
@@ -297,33 +340,43 @@ document.getElementById("totalPrice").innerText = price
 
 }
 
-document.querySelectorAll("input,select").forEach(el=>{
-el.addEventListener("input",compute)
+document.querySelectorAll("input,select").forEach(e=>{
+e.addEventListener("input",compute)
 })
 
 compute()
+
+
 
 document.getElementById("form").addEventListener("submit",async e=>{
 
 e.preventDefault()
 
 let data = {
-firstName:firstName.value,
-lastName:lastName.value,
-phone:phone.value,
-address:address.value,
-instructions:instructions.value
+
+firstName:val("firstName"),
+lastName:val("lastName"),
+phone:val("phone"),
+
+address:val("address"),
+instructions:val("instructions")
+
 }
 
 let r = await fetch("/api/create-onfleet-task",{
+
 method:"POST",
-headers:{ "Content-Type":"application/json" },
+headers:{
+"Content-Type":"application/json"
+},
+
 body:JSON.stringify(data)
+
 })
 
 let j = await r.json()
 
-alert("Course créée")
+alert("Course créée dans Onfleet")
 
 })
 
