@@ -1,386 +1,858 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Dispatch Docteur Glaçons</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dispatch Docteur Glaçons</title>
+  <style>
+    :root {
+      --brand: #445e88;
+      --brand-soft: #eef3fb;
+      --bg: #f4f7fb;
+      --line: #d7e0eb;
+      --text: #0f172a;
+      --muted: #64748b;
+      --ok: #e7f8ef;
+      --ok-ink: #0f7a3f;
+      --err: #fff1f2;
+      --err-ink: #b42318;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    }
 
-<style>
+    * { box-sizing: border-box; }
 
-body{
-font-family: Arial;
-background:#f4f6fb;
-margin:0;
-padding:40px;
-}
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+      color: var(--text);
+      padding: 28px;
+    }
 
-.container{
-max-width:1000px;
-margin:auto;
-background:white;
-padding:35px;
-border-radius:12px;
-box-shadow:0 6px 30px rgba(0,0,0,0.1);
-}
+    .wrap {
+      max-width: 1350px;
+      margin: 0 auto;
+    }
 
-h1{
-text-align:center;
-margin-bottom:35px;
-}
+    .top {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
 
-.section{
-border:2px solid #445e88;
-padding:20px;
-border-radius:10px;
-margin-bottom:25px;
-}
+    .logo {
+      max-width: 340px;
+      width: 100%;
+      height: auto;
+      display: block;
+    }
 
-.section h2{
-margin-top:0;
-color:#445e88;
-}
+    .toggleRow {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+    }
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-}
+    .toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: #fff;
+      border: 2px solid rgba(68, 94, 136, 0.18);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      min-width: 220px;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--brand);
+    }
 
-.grid3{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:15px;
-}
+    .toggle input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--brand);
+      margin: 0;
+    }
 
-.grid4{
-display:grid;
-grid-template-columns:1fr 1fr 1fr 1fr;
-gap:15px;
-}
+    .toggle .badge {
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: #f5f7fb;
+      color: var(--brand);
+      font-size: 12px;
+      font-weight: 800;
+    }
 
-input,select,textarea{
-width:100%;
-padding:10px;
-border-radius:6px;
-border:1px solid #ccc;
-box-sizing:border-box;
-}
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+    }
 
-textarea{
-height:70px;
-}
+    .btn {
+      border: 0;
+      background: var(--brand);
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 15px;
+    }
 
-.calc{
-background:#445e88;
-color:white;
-font-size:20px;
-display:flex;
-align-items:center;
-justify-content:center;
-border-radius:6px;
-font-weight:bold;
-}
+    .btn.alt {
+      background: #fff;
+      color: var(--brand);
+      border: 1px solid var(--line);
+    }
 
-button{
-background:#445e88;
-color:white;
-border:none;
-padding:14px 22px;
-border-radius:6px;
-font-size:16px;
-cursor:pointer;
-}
+    .layout {
+      display: grid;
+      grid-template-columns: 1.35fr 0.85fr;
+      gap: 24px;
+      align-items: start;
+    }
 
-button:hover{
-background:#31486e;
-}
+    .card {
+      background: #fff;
+      border: 1px solid #e7edf5;
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+    }
 
-.footer{
-display:flex;
-justify-content:flex-end;
-margin-top:20px;
-}
+    .cardBody {
+      padding: 22px;
+    }
 
-</style>
+    .section {
+      border: 2px solid rgba(68, 94, 136, 0.22);
+      border-radius: 22px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .section h3 {
+      margin: 0 0 16px;
+      color: var(--brand);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+    }
+
+    .icon {
+      width: 46px;
+      height: 34px;
+      border-radius: 12px;
+      background: var(--brand-soft);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .grid2, .grid3, .grid4 {
+      display: grid;
+      gap: 14px;
+    }
+
+    .grid2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #cfd9e4;
+      border-radius: 16px;
+      font-size: 15px;
+      background: #fff;
+      color: var(--text);
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #91a7c7;
+      box-shadow: 0 0 0 4px rgba(68, 94, 136, 0.08);
+    }
+
+    textarea {
+      min-height: 72px;
+      resize: vertical;
+    }
+
+    #lastName,
+    #venueName {
+      text-transform: uppercase;
+    }
+
+    .calc {
+      background: linear-gradient(180deg, #4b6796 0%, #445e88 100%);
+      color: #fff;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 22px;
+      min-height: 52px;
+      align-self: end;
+      gap: 6px;
+    }
+
+    .note {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--brand-soft);
+      color: var(--brand);
+      font-size: 13px;
+      font-weight: 700;
+      border: 1px solid #d7e1ef;
+    }
+
+    .error {
+      background: var(--err);
+      border: 1px solid #fecdd3;
+      color: var(--err-ink);
+      border-radius: 16px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+
+    .ok {
+      background: var(--ok);
+      border: 1px solid #b7e7c9;
+      color: var(--ok-ink);
+      border-radius: 16px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+
+    .preview {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      margin-bottom: 14px;
+    }
+
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      background: #f6f8fb;
+      border: 1px solid var(--line);
+      padding: 14px;
+      border-radius: 18px;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .addrlist {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+      display: none;
+      max-height: 220px;
+      overflow: auto;
+      z-index: 10;
+    }
+
+    .addritem {
+      padding: 10px 12px;
+      cursor: pointer;
+      border-bottom: 1px solid #eef2f7;
+      font-size: 14px;
+    }
+
+    .addritem:last-child { border-bottom: 0; }
+    .addritem:hover { background: #f7faff; }
+
+    .autocomplete-meta {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 1100px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 780px) {
+      body { padding: 16px; }
+      .grid2, .grid3, .grid4 { grid-template-columns: 1fr; }
+      .toggle { min-width: 100%; }
+    }
+  </style>
 </head>
-
 <body>
-
-<div class="container">
-
-<h1>Création course Onfleet</h1>
-
-<form id="form">
-
-<div class="section">
-
-<h2>Client</h2>
-
-<div class="grid3">
-
-<div>
-<label>Prénom *</label>
-<input id="firstName">
-</div>
-
-<div>
-<label>Nom *</label>
-<input id="lastName">
-</div>
-
-<div>
-<label>Téléphone *</label>
-<input id="phone">
-</div>
-
-<div>
-<label>Email</label>
-<input id="email">
-</div>
-
-<div>
-<label>Société</label>
-<input id="company">
-</div>
-
-<div>
-<label>Typologie client *</label>
-<select id="clientType">
-<option></option>
-<option>Particulier</option>
-<option>Restaurant</option>
-<option>Entreprise</option>
-<option>Bar</option>
-<option>Traiteur</option>
-<option>Brasserie</option>
-<option>Agence</option>
-<option>Café</option>
-<option>Bar évènementiel</option>
-<option>Hôtel</option>
-<option>Galerie d'art</option>
-</select>
-</div>
-
-</div>
-
-</div>
-
-
-
-<div class="section">
-
-<h2>Livraison</h2>
-
-<div class="grid">
-
-<div>
-<label>Adresse *</label>
-<input id="address">
-</div>
-
-<div>
-<label>Nom du lieu</label>
-<input id="venueName">
-</div>
-
-<div>
-<label>Date *</label>
-<input type="date" id="deliveryDate">
-</div>
-
-<div>
-<label>Heure min *</label>
-<input type="time" id="timeMin">
-</div>
-
-<div>
-<label>Heure max *</label>
-<input type="time" id="timeMax">
-</div>
-
-</div>
-
-<br>
-
-<label>Instructions</label>
-<textarea id="instructions"></textarea>
-
-</div>
-
-
-
-<div class="section">
-
-<h2>Produits</h2>
-
-<div class="grid4">
-
-<div>
-<label>Glaçons (20kg)</label>
-<input type="number" id="ice20" value="0">
-</div>
-
-<div>
-<label>Pilée (20kg)</label>
-<input type="number" id="crushed20" value="0">
-</div>
-
-<div>
-<label>Carboglace 2kg</label>
-<input type="number" id="dryIce2" value="0">
-</div>
-
-<div class="calc">
-<span id="totalKg">0</span> kg
-</div>
-
-<div>
-<label>Carboglace 5kg</label>
-<input type="number" id="dryIce5" value="0">
-</div>
-
-<div>
-<label>Carboglace 10kg</label>
-<input type="number" id="dryIce10" value="0">
-</div>
-
-<div>
-<label>Bac isotherme</label>
-<input type="number" id="coolerBox" value="0">
-</div>
-
-<div>
-<label>Frais livraison</label>
-<select id="deliveryFee">
-<option>0 €</option>
-<option>10 €</option>
-<option>15 €</option>
-<option>20 €</option>
-<option>30 €</option>
-<option>40 €</option>
-<option>50 €</option>
-</select>
-</div>
-
-</div>
-
-</div>
-
-
-
-<div class="section">
-
-<h2>Paiement</h2>
-
-<div class="grid3">
-
-<div>
-<label>Mode de règlement *</label>
-<select id="paymentMethod">
-<option></option>
-<option>CB</option>
-<option>Espèces</option>
-<option>Facture</option>
-<option>Chèque</option>
-</select>
-</div>
-
-<div class="calc">
-<span id="totalPrice">0</span> €
-</div>
-
-</div>
-
-</div>
-
-
-
-<div class="footer">
-<button type="submit">Créer la course</button>
-</div>
-
-</form>
-
-</div>
-
-
-
-<script>
-
-function val(id){
-return document.getElementById(id).value
-}
-
-function num(id){
-return Number(document.getElementById(id).value || 0)
-}
-
-function compute(){
-
-let kg =
-num("ice20")*20 +
-num("crushed20")*20 +
-num("dryIce2")*2 +
-num("dryIce5")*5 +
-num("dryIce10")*10
-
-let price =
-num("ice20")*20 +
-num("crushed20")*20 +
-num("dryIce2")*25 +
-num("dryIce5")*35 +
-num("dryIce10")*55 +
-num("coolerBox")*10
-
-let delivery = Number(val("deliveryFee").replace("€",""))
-
-price += delivery
-
-document.getElementById("totalKg").innerText = kg
-document.getElementById("totalPrice").innerText = price
-
-}
-
-document.querySelectorAll("input,select").forEach(e=>{
-e.addEventListener("input",compute)
-})
-
-compute()
-
-
-
-document.getElementById("form").addEventListener("submit",async e=>{
-
-e.preventDefault()
-
-let data = {
-
-firstName:val("firstName"),
-lastName:val("lastName"),
-phone:val("phone"),
-
-address:val("address"),
-instructions:val("instructions")
-
-}
-
-let r = await fetch("/api/create-onfleet-task",{
-
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify(data)
-
-})
-
-let j = await r.json()
-
-alert("Course créée dans Onfleet")
-
-})
-
-</script>
-
+  <div class="wrap">
+    <div class="top">
+      <img class="logo" src="./logo-docteur-glacons.png" alt="Docteur Glaçons">
+      <div class="toggleRow">
+        <label class="toggle">
+          <input type="checkbox" id="sendOnfleet" checked>
+          <span class="badge">ONF</span>
+          <span>Envoyer vers Onfleet</span>
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="sendMonday" checked>
+          <span class="badge">MON</span>
+          <span>Envoyer vers Monday</span>
+        </label>
+      </div>
+      <div class="actions">
+        <button class="btn alt" type="button" id="loadDemo">Charger un exemple</button>
+        <button class="btn alt" type="button" id="resetForm">Réinitialiser</button>
+        <button class="btn alt" type="button" id="copySummary">Copier le résumé</button>
+      </div>
+    </div>
+
+    <div class="layout">
+      <div class="card">
+        <div class="cardBody">
+          <form id="deliveryForm">
+            <section class="section">
+              <h3><span class="icon">👤</span>Client</h3>
+              <div class="grid3">
+                <div class="field">
+                  <label>Prénom *</label>
+                  <input id="firstName">
+                </div>
+                <div class="field">
+                  <label>Nom *</label>
+                  <input id="lastName">
+                </div>
+                <div class="field">
+                  <label>Téléphone *</label>
+                  <input id="phone" inputmode="tel" placeholder="0612345678">
+                </div>
+                <div class="field">
+                  <label>Email</label>
+                  <input id="email">
+                </div>
+                <div class="field">
+                  <label>Société</label>
+                  <input id="company">
+                </div>
+                <div class="field">
+                  <label>Typologie de client *</label>
+                  <select id="clientType">
+                    <option value="">Choisir</option>
+                    <option>Particulier</option>
+                    <option>Restaurant</option>
+                    <option>Entreprise</option>
+                    <option>Bar</option>
+                    <option>Traiteur</option>
+                    <option>Brasserie</option>
+                    <option>Agence</option>
+                    <option>Café</option>
+                    <option>Bar évènementiel</option>
+                    <option>Hôtel</option>
+                    <option>Galerie d'art</option>
+                  </select>
+                </div>
+              </div>
+            </section>
+
+            <section class="section">
+              <h3><span class="icon">🚚</span>Livraison</h3>
+              <div class="grid2">
+                <div class="field">
+                  <label>Adresse de livraison *</label>
+                  <input id="address" autocomplete="off" placeholder="Commencer à taper une adresse">
+                  <div id="addressList" class="addrlist"></div>
+                </div>
+
+                <div class="field">
+                  <label>Nom du lieu</label>
+                  <input id="venueName">
+                </div>
+
+                <div class="field">
+                  <label>Date de livraison *</label>
+                  <input type="date" id="deliveryDate">
+                </div>
+
+                <div class="grid2">
+                  <div class="field">
+                    <label>Heure min *</label>
+                    <select id="timeMin"></select>
+                  </div>
+                  <div class="field">
+                    <label>Heure max *</label>
+                    <select id="timeMax"></select>
+                  </div>
+                </div>
+
+                <div class="field" style="grid-column:1/-1">
+                  <label>Instructions de livraison</label>
+                  <textarea id="instructions" placeholder="Code, étage, contact sur place..."></textarea>
+                </div>
+              </div>
+            </section>
+
+            <section class="section">
+              <h3><span class="icon">🧊</span>Produits</h3>
+              <div class="grid4">
+                <div class="field">
+                  <label>Glaçons (20 kg)</label>
+                  <input type="number" min="0" step="1" id="ice20" value="0">
+                </div>
+                <div class="field">
+                  <label>Glace pilée (20 kg)</label>
+                  <input type="number" min="0" step="1" id="crushed20" value="0">
+                </div>
+                <div class="field">
+                  <label>Carboglace (2 kg)</label>
+                  <input type="number" min="0" step="1" id="dryIce2" value="0">
+                </div>
+                <div class="calc"><span id="totalKg">0</span> <span>kg</span></div>
+
+                <div class="field">
+                  <label>Carboglace (5 kg)</label>
+                  <input type="number" min="0" step="1" id="dryIce5" value="0">
+                </div>
+                <div class="field">
+                  <label>Carboglace (10 kg)</label>
+                  <input type="number" min="0" step="1" id="dryIce10" value="0">
+                </div>
+                <div class="field">
+                  <label>Bac isotherme</label>
+                  <input type="number" min="0" step="1" id="coolerBox" value="0">
+                </div>
+                <div class="field">
+                  <label>Frais de livraison</label>
+                  <select id="deliveryFee">
+                    <option value="">Choisir</option>
+                    <option>0 €</option>
+                    <option>10 €</option>
+                    <option>15 €</option>
+                    <option>20 €</option>
+                    <option>30 €</option>
+                    <option>40 €</option>
+                    <option>50 €</option>
+                  </select>
+                </div>
+              </div>
+            </section>
+
+            <section class="section">
+              <h3><span class="icon">💳</span>Paiement</h3>
+              <div class="grid4">
+                <div class="field">
+                  <label>Mode de règlement *</label>
+                  <select id="paymentMethod">
+                    <option value="">Choisir</option>
+                    <option>CB</option>
+                    <option>Espèces</option>
+                    <option>Cash</option>
+                    <option>Facture</option>
+                    <option>Chèque</option>
+                  </select>
+                </div>
+                <div class="calc"><span id="totalPrice">0</span> <span>€</span></div>
+              </div>
+            </section>
+
+            <div id="alerts"></div>
+
+            <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap">
+              <span class="note">Téléphone contrôlé + adresse assistée</span>
+              <button class="btn" type="submit">Créer la course Onfleet</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="cardBody">
+          <div class="preview">
+            <h3 style="margin-top:0;color:var(--brand)">Résultat</h3>
+            <div id="resultEmpty" class="small">Remplis le formulaire puis clique sur créer.</div>
+            <div id="resultContent" style="display:none">
+              <div id="resultBox" class="ok">Course créée.</div>
+              <div class="preview">
+                <h3 style="margin-top:0;color:var(--brand)">Résumé envoyé</h3>
+                <pre id="summaryBlock"></pre>
+              </div>
+              <div class="preview">
+                <h3 style="margin-top:0;color:var(--brand)">Payload Onfleet envoyé</h3>
+                <pre id="payloadBlock"></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const form = document.getElementById('deliveryForm');
+      const alerts = document.getElementById('alerts');
+      const totalKgEl = document.getElementById('totalKg');
+      const totalPriceEl = document.getElementById('totalPrice');
+      const resultEmpty = document.getElementById('resultEmpty');
+      const resultContent = document.getElementById('resultContent');
+      const summaryBlock = document.getElementById('summaryBlock');
+      const payloadBlock = document.getElementById('payloadBlock');
+      const resultBox = document.getElementById('resultBox');
+      const addressInput = document.getElementById('address');
+      const addressList = document.getElementById('addressList');
+      const lastNameInput = document.getElementById('lastName');
+      const venueNameInput = document.getElementById('venueName');
+
+      const numberFields = ['ice20','crushed20','dryIce2','dryIce5','dryIce10','coolerBox'];
+      const weightedFields = { ice20:20, crushed20:20, dryIce2:2, dryIce5:5, dryIce10:10 };
+      const priceFields = { ice20:20, crushed20:20, dryIce2:25, dryIce5:35, dryIce10:55, coolerBox:10 };
+
+      let addressAbortController = null;
+
+      function pad(n){ return String(n).padStart(2,'0'); }
+
+      function orderedTimes(){
+        const items = [];
+        for(let h=6; h<=23; h++){
+          for(let m=0; m<60; m+=30){
+            if(h===23 && m>30) continue;
+            items.push(`${pad(h)}:${pad(m)}`);
+          }
+        }
+        return items;
+      }
+
+      function fillHalfHourSelect(id){
+        const select = document.getElementById(id);
+        select.innerHTML = '';
+        const placeholder = document.createElement('option');
+        placeholder.value = '';
+        placeholder.textContent = 'Choisir';
+        placeholder.selected = true;
+        select.appendChild(placeholder);
+
+        orderedTimes().forEach(v=>{
+          const option = document.createElement('option');
+          option.value = v;
+          option.textContent = v;
+          select.appendChild(option);
+        });
+      }
+
+      function addTwoHours(timeValue){
+        if(!timeValue) return '';
+        const parts = timeValue.split(':').map(Number);
+        const total = parts[0]*60 + parts[1] + 120;
+        const maxMinutes = 23*60 + 30;
+        const bounded = Math.min(total, maxMinutes);
+        return `${pad(Math.floor(bounded/60))}:${pad(bounded%60)}`;
+      }
+
+      function setMinDateToday(){
+        const today = new Date();
+        document.getElementById('deliveryDate').min = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
+      }
+
+      function getValue(id){ return document.getElementById(id).value.trim(); }
+      function getNumber(id){ return Number(document.getElementById(id).value || 0); }
+      function digitsOnly(v){ return (v || '').replace(/\D/g,''); }
+      function deliveryFeeNumber(){ return Number((getValue('deliveryFee') || '0').replace(/[^\d]/g,'') || 0); }
+
+      function computeTotals(){
+        const totalKg = Object.entries(weightedFields).reduce((s,[id,kg])=>s+getNumber(id)*kg,0);
+        const totalPrice = Object.entries(priceFields).reduce((s,[id,p])=>s+getNumber(id)*p,0) + deliveryFeeNumber();
+        totalKgEl.textContent = totalKg;
+        totalPriceEl.textContent = totalPrice;
+        return { totalKg, totalPrice };
+      }
+
+      function renderErrors(errors){
+        if(!errors.length){
+          alerts.innerHTML = '';
+          return;
+        }
+        alerts.innerHTML = `<div class="error">${errors.map(e=>`• ${e}`).join('<br>')}</div>`;
+      }
+
+      function buildSummary(data){
+        return [
+          `Prénom : ${data.firstName}`,
+          `Nom : ${data.lastName}`,
+          `Téléphone : ${data.phone}`,
+          `Email : ${data.email || 'Non renseigné'}`,
+          `Société : ${data.company || 'Non renseignée'}`,
+          `Typologie : ${data.clientType}`,
+          `Adresse : ${data.address}`,
+          `Nom du lieu : ${data.venueName || 'Non renseigné'}`,
+          `Date : ${data.deliveryDate}`,
+          `Créneau : ${data.timeMin} → ${data.timeMax}`,
+          `Instructions : ${data.instructions || 'Aucune'}`,
+          `Mode de règlement : ${data.paymentMethod}`,
+          `Frais livraison : ${data.deliveryFee || '0 €'}`,
+          `Total kg : ${data.totalKg} kg`,
+          `Total client : ${data.totalPrice} €`
+        ].join('\\n');
+      }
+
+      function getFormData(){
+        const totals = computeTotals();
+        return {
+          sendOnfleet: document.getElementById('sendOnfleet').checked,
+          sendMonday: document.getElementById('sendMonday').checked,
+          firstName: getValue('firstName'),
+          lastName: getValue('lastName'),
+          phone: getValue('phone'),
+          email: getValue('email'),
+          company: getValue('company'),
+          clientType: getValue('clientType'),
+          address: getValue('address'),
+          venueName: getValue('venueName'),
+          instructions: getValue('instructions'),
+          ice20: getNumber('ice20'),
+          crushed20: getNumber('crushed20'),
+          dryIce2: getNumber('dryIce2'),
+          dryIce5: getNumber('dryIce5'),
+          dryIce10: getNumber('dryIce10'),
+          coolerBox: getNumber('coolerBox'),
+          deliveryFee: getValue('deliveryFee'),
+          deliveryDate: getValue('deliveryDate'),
+          timeMin: getValue('timeMin'),
+          timeMax: getValue('timeMax'),
+          paymentMethod: getValue('paymentMethod'),
+          totalKg: totals.totalKg,
+          totalPrice: totals.totalPrice
+        };
+      }
+
+      function validate(data){
+        const e = [];
+        const p = digitsOnly(data.phone);
+
+        if(!data.sendOnfleet) e.push('Coche Onfleet.');
+        if(!data.firstName) e.push('Le prénom est obligatoire.');
+        if(!data.lastName) e.push('Le nom est obligatoire.');
+        if(!data.phone || p.length < 10) e.push('Le téléphone est obligatoire et doit contenir 10 chiffres minimum.');
+        if(!data.clientType) e.push('La typologie de client est obligatoire.');
+        if(!data.address) e.push('L’adresse de livraison est obligatoire.');
+        if(!data.deliveryDate) e.push('La date est obligatoire.');
+        if(!data.timeMin) e.push('L’heure min est obligatoire.');
+        if(!data.timeMax) e.push('L’heure max est obligatoire.');
+        if(!data.paymentMethod) e.push('Le mode de règlement est obligatoire.');
+        if(data.timeMin && data.timeMax && data.timeMax <= data.timeMin) e.push('L’heure max doit être après l’heure min.');
+        if(data.totalKg <= 0 && getNumber('coolerBox') <= 0) e.push('Il faut au moins un produit.');
+
+        return e;
+      }
+
+      function closeAddressList(){
+        addressList.style.display = 'none';
+        addressList.innerHTML = '';
+      }
+
+      function renderAddressSuggestions(features){
+        if(!features.length){
+          closeAddressList();
+          return;
+        }
+        addressList.innerHTML = '';
+        features.forEach(f=>{
+          const i = document.createElement('div');
+          i.className = 'addritem';
+          i.innerHTML = `${f.properties.label}<span class="autocomplete-meta">${f.properties.city || ''}</span>`;
+          i.addEventListener('click', ()=>{
+            addressInput.value = f.properties.label;
+            closeAddressList();
+          });
+          addressList.appendChild(i);
+        });
+        addressList.style.display = 'block';
+      }
+
+      async function searchAddress(q){
+        if(q.length < 3){
+          closeAddressList();
+          return;
+        }
+        if(addressAbortController) addressAbortController.abort();
+        addressAbortController = new AbortController();
+        try{
+          const r = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(q)}&limit=5`, {
+            signal: addressAbortController.signal
+          });
+          const d = await r.json();
+          renderAddressSuggestions(d.features || []);
+        }catch(e){
+          if(e.name !== 'AbortError') closeAddressList();
+        }
+      }
+
+      let addressDebounce = null;
+      addressInput.addEventListener('input', function(){
+        clearTimeout(addressDebounce);
+        addressDebounce = setTimeout(()=>searchAddress(this.value.trim()), 250);
+      });
+
+      document.addEventListener('click', function(e){
+        if(!addressList.contains(e.target) && e.target !== addressInput) closeAddressList();
+      });
+
+      document.getElementById('timeMin').addEventListener('change', function(){
+        const autoMax = addTwoHours(this.value);
+        if(autoMax) document.getElementById('timeMax').value = autoMax;
+      });
+
+      document.getElementById('phone').addEventListener('input', function(){
+        this.value = this.value.replace(/[^0-9+ ]/g,'');
+      });
+
+      lastNameInput.addEventListener('input', function(){
+        this.value = this.value.toUpperCase();
+      });
+
+      venueNameInput.addEventListener('input', function(){
+        this.value = this.value.toUpperCase();
+      });
+
+      form.addEventListener('submit', async function(e){
+        e.preventDefault();
+        const data = getFormData();
+        const errs = validate(data);
+        renderErrors(errs);
+        if(errs.length) return;
+
+        summaryBlock.textContent = buildSummary(data);
+        payloadBlock.textContent = 'Envoi en cours...';
+        resultEmpty.style.display = 'none';
+        resultContent.style.display = 'block';
+        resultBox.className = 'ok';
+        resultBox.textContent = 'Création en cours...';
+
+        try{
+          const response = await fetch('/api/create-onfleet-task', {
+            method:'POST',
+            headers:{ 'Content-Type':'application/json' },
+            body: JSON.stringify(data)
+          });
+          const result = await response.json();
+
+          if(!response.ok || !result.ok){
+            resultBox.className = 'error';
+            resultBox.textContent = `Erreur : ${result.error || 'Impossible de créer la course.'}`;
+            payloadBlock.textContent = JSON.stringify(result, null, 2);
+            return;
+          }
+
+          resultBox.className = 'ok';
+          resultBox.textContent = `Course créée dans Onfleet. ID: ${result.taskId}`;
+          payloadBlock.textContent = JSON.stringify(result.payloadSent, null, 2);
+        }catch(err){
+          resultBox.className = 'error';
+          resultBox.textContent = 'Erreur réseau lors de la création de la course.';
+          payloadBlock.textContent = String(err);
+        }
+      });
+
+      document.getElementById('loadDemo').addEventListener('click', function(){
+        document.getElementById('sendOnfleet').checked = true;
+        document.getElementById('sendMonday').checked = true;
+        document.getElementById('firstName').value = 'Romain';
+        document.getElementById('lastName').value = 'MARTIN';
+        document.getElementById('phone').value = '+33667205624';
+        document.getElementById('email').value = 'romain@test.fr';
+        document.getElementById('company').value = 'Docteur Glaçons';
+        document.getElementById('clientType').value = 'Particulier';
+        document.getElementById('address').value = '17 Rue Lacroix, 75017 Paris';
+        document.getElementById('venueName').value = 'HOTEL';
+        document.getElementById('instructions').value = '5';
+        document.getElementById('ice20').value = 2;
+        document.getElementById('crushed20').value = 1;
+        document.getElementById('dryIce2').value = 1;
+        document.getElementById('dryIce5').value = 0;
+        document.getElementById('dryIce10').value = 0;
+        document.getElementById('coolerBox').value = 1;
+        document.getElementById('deliveryFee').value = '10 €';
+        const today = new Date();
+        today.setDate(today.getDate()+1);
+        document.getElementById('deliveryDate').value = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
+        document.getElementById('timeMin').value = '14:00';
+        document.getElementById('timeMax').value = '16:00';
+        document.getElementById('paymentMethod').value = 'Espèces';
+        computeTotals();
+      });
+
+      document.getElementById('resetForm').addEventListener('click', function(){
+        form.reset();
+        document.getElementById('sendOnfleet').checked = true;
+        document.getElementById('sendMonday').checked = true;
+        numberFields.forEach(id=>document.getElementById(id).value=0);
+        document.getElementById('clientType').value = '';
+        document.getElementById('paymentMethod').value = '';
+        document.getElementById('deliveryFee').value = '';
+        document.getElementById('timeMin').value = '';
+        document.getElementById('timeMax').value = '';
+        computeTotals();
+        closeAddressList();
+        alerts.innerHTML = '';
+        resultEmpty.style.display = 'block';
+        resultContent.style.display = 'none';
+      });
+
+      document.getElementById('copySummary').addEventListener('click', async function(){
+        const text = summaryBlock.textContent || '';
+        if(!text) return;
+        try{
+          await navigator.clipboard.writeText(text);
+          this.textContent = 'Résumé copié';
+          setTimeout(()=>{ this.textContent = 'Copier le résumé'; }, 1500);
+        }catch(e){}
+      });
+
+      [...numberFields,'deliveryFee'].forEach(id=>{
+        document.getElementById(id).addEventListener('input', computeTotals);
+        document.getElementById(id).addEventListener('change', computeTotals);
+      });
+
+      fillHalfHourSelect('timeMin');
+      fillHalfHourSelect('timeMax');
+      setMinDateToday();
+      computeTotals();
+    </script>
+  </div>
 </body>
 </html>
