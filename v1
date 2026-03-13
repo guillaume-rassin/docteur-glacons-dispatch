@@ -1,0 +1,71 @@
+ONFLEET_API_KEY=COLLE_TA_CLE_ICI
+PORT=3000
+
+{
+  "name": "docteur-glacons-dispatch",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "dotenv": "^16.0.3"
+  }
+}
+
+import dotenv from "dotenv";
+dotenv.config();
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
+
+app.post("/api/create-onfleet-task", async (req,res)=>{
+
+  const apiKey = process.env.ONFLEET_API_KEY;
+  if(!apiKey) return res.json({ok:false,error:"clé API manquante"});
+
+  const data=req.body;
+
+  const auth = Buffer.from(apiKey + ":").toString("base64");
+
+  const payload = {
+    recipients:[{
+      name:data.firstName,
+      phone:data.phone
+    }],
+    destination:{
+      address:{unparsed:data.address},
+      notes:data.instructions || ""
+    },
+    completeAfter: Date.now(),
+    completeBefore: Date.now()+7200000,
+    notes:"Commande Docteur Glaçons"
+  };
+
+  const r = await fetch("https://onfleet.com/api/v2/tasks",{
+    method:"POST",
+    headers:{
+      "Authorization":"Basic "+auth,
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify(payload)
+  });
+
+  const j = await r.json();
+  res.json(j);
+});
+
+app.listen(PORT,()=>{
+  console.log("Serveur lancé http://localhost:"+PORT);
+});
+
