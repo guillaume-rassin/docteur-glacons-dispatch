@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Dispatch Docteur Glaçons</title>
+</head>
+<body style="font-family:Arial;padding:40px">
+
+<h2>Création course Onfleet</h2>
+
+<form id="form">
+<input id="firstName" placeholder="Prénom"><br><br>
+<input id="phone" placeholder="Téléphone"><br><br>
+<input id="address" placeholder="Adresse"><br><br>
+<textarea id="instructions" placeholder="Instructions"></textarea><br><br>
+<button type="submit">Créer la course</button>
+</form>
+
+<pre id="result"></pre>
+
+<script>
+document.getElementById("form").addEventListener("submit",async e=>{
+e.preventDefault()
+
+const payload={
+firstName:document.getElementById("firstName").value,
+phone:document.getElementById("phone").value,
+address:document.getElementById("address").value,
+instructions:document.getElementById("instructions").value
+}
+
+const r=await fetch("/api/create-onfleet-task",{
+method:"POST",
+headers:{ "Content-Type":"application/json"},
+body:JSON.stringify(payload)
+})
+
+const j=await r.json()
+document.getElementById("result").textContent=JSON.stringify(j,null,2)
+})
+</script>
+
+</body>
+</html>
